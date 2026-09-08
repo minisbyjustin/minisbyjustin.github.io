@@ -301,7 +301,7 @@ document.getElementById("cart-overlay")?.addEventListener("click", closeCart);
 
 document.getElementById("checkout-button")?.addEventListener("click", () => {
     alert(
-        "The shopping cart is working, but payment processing has not been connected yet."
+        "Sorry, I haven't set up a payment service yet. If you really want something, DM me on instagram @minis_by_justin"
     );
 });
 
