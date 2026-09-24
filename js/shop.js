@@ -16,7 +16,7 @@ const products = [
     {
         id: "minotaur",
         name: "Minotaur",
-        price: 12.00,
+        price: 8.00,
         images: [
             "images/minis/minotaur/1.jpeg",
         ]
@@ -24,7 +24,7 @@ const products = [
     {
         id: "wizard",
         name: "Wizard with Wand",
-        price: 6.00,
+        price: 5.00,
         images: [
             "images/minis/wand_wizard/1.jpeg",
             "images/minis/wand_wizard/2.jpeg",
@@ -34,7 +34,7 @@ const products = [
     {
         id: "lichqueen",
         name: "Lich Queen",
-        price: 6.00,
+        price: 5.00,
         images: [
             "images/minis/lich_queen/1.jpeg",
             "images/minis/lich_queen/2.jpeg"
@@ -43,7 +43,7 @@ const products = [
     {
         id: "elementalist",
         name: "Elementalist",
-        price: 7.00,
+        price: 5.00,
         images: [
             "images/minis/fem_elementalist/1.jpeg"
         ]
@@ -51,7 +51,7 @@ const products = [
     {
         id: "kobold_rogue",
         name: "Kobold Rogue",
-        price: 5.00,
+        price: 4.00,
         images: [
             "images/minis/kobold_rogue/1.jpeg",
             "images/minis/kobold_rogue/2.jpeg",
@@ -61,11 +61,31 @@ const products = [
     {
         id: "pirate",
         name: "Pirate Captain",
-        price: 6.00,
+        price: 5.00,
         images: [
             "images/minis/pirate/1.jpeg",
             "images/minis/pirate/2.jpeg",
             "images/minis/pirate/3.jpeg"
+        ]
+    },
+    {
+        id: "dwarf",
+        name: "Dwarf Smith",
+        price: 5.00,
+        images: [
+            "images/minis/dwarf/dwarf0.jpeg",
+            "images/minis/dwarf/dwarf1.jpeg"
+        ]
+    },
+    {
+        id: "Merman",
+        name: "Merman on Wave",
+        price: 7.00,
+        images: [
+            "images/minis/merman/1.jpeg",
+            "images/minis/merman/2.jpeg",
+            "images/minis/merman/3.jpeg",
+            "images/minis/merman/4.jpeg"
         ]
     }
 ];
