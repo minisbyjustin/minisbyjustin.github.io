@@ -18,7 +18,34 @@ const products = [
         name: "Minotaur",
         price: 8.00,
         images: [
-            "images/minis/minotaur/1.jpeg",
+            "images/minis/minotaur/1.jpg",
+            "images/minis/minotaur/2.jpg",
+            "images/minis/minotaur/3.jpg",
+            "images/minis/minotaur/4.jpg",
+            "images/minis/minotaur/5.jpg",
+        ]
+    },
+    {
+        id: "frogrider",
+        name: "Frog and Rider",
+        price: 5.00,
+        images: [
+            "images/minis/frog_rider/5.jpg",
+            "images/minis/frog_rider/3.jpg",
+            "images/minis/frog_rider/2.jpg",
+            "images/minis/frog_rider/4.jpg",
+            "images/minis/frog_rider/1.jpg"
+        ]
+    },
+    {
+        id: "Merman",
+        name: "Merman on Wave",
+        price: 7.00,
+        images: [
+            "images/minis/merman/1.jpeg",
+            "images/minis/merman/2.jpeg",
+            "images/minis/merman/3.jpeg",
+            "images/minis/merman/4.jpeg"
         ]
     },
     {
@@ -26,9 +53,10 @@ const products = [
         name: "Wizard with Wand",
         price: 5.00,
         images: [
-            "images/minis/wand_wizard/1.jpeg",
-            "images/minis/wand_wizard/2.jpeg",
-            "images/minis/wand_wizard/3.jpeg"
+            "images/minis/wand_wizard/1.jpg",
+            "images/minis/wand_wizard/2.jpg",
+            "images/minis/wand_wizard/3.jpg",
+            "images/minis/wand_wizard/4.jpg"
         ]
     },
     {
@@ -36,8 +64,9 @@ const products = [
         name: "Lich Queen",
         price: 5.00,
         images: [
-            "images/minis/lich_queen/1.jpeg",
-            "images/minis/lich_queen/2.jpeg"
+            "images/minis/lich_queen/1.jpg",
+            "images/minis/lich_queen/2.jpg",
+            "images/minis/lich_queen/3.jpg"
         ]
     },
     {
@@ -45,7 +74,9 @@ const products = [
         name: "Elementalist",
         price: 5.00,
         images: [
-            "images/minis/fem_elementalist/1.jpeg"
+            "images/minis/fem_elementalist/1.jpeg",
+            "images/minis/fem_elementalist/2.jpg",
+            "images/minis/fem_elementalist/3.jpg"
         ]
     },
     {
@@ -63,9 +94,9 @@ const products = [
         name: "Pirate Captain",
         price: 5.00,
         images: [
-            "images/minis/pirate/1.jpeg",
-            "images/minis/pirate/2.jpeg",
-            "images/minis/pirate/3.jpeg"
+            "images/minis/pirate/1.jpg",
+            "images/minis/pirate/2.jpg",
+            "images/minis/pirate/3.jpg"
         ]
     },
     {
@@ -78,14 +109,36 @@ const products = [
         ]
     },
     {
-        id: "Merman",
-        name: "Merman on Wave",
-        price: 7.00,
+        id: "zombie",
+        name: "Business Zombie",
+        price: 5.00,
         images: [
-            "images/minis/merman/1.jpeg",
-            "images/minis/merman/2.jpeg",
-            "images/minis/merman/3.jpeg",
-            "images/minis/merman/4.jpeg"
+            "images/minis/zombie/1.jpg",
+            "images/minis/zombie/2.jpg",
+            "images/minis/zombie/3.jpg",
+            "images/minis/zombie/4.jpg",
+            "images/minis/zombie/5.jpg"
+        ]
+    },
+    {
+        id: "monk",
+        name: "Monk",
+        price: 5.00,
+        images: [
+            "images/minis/monk/2.jpg",
+            "images/minis/monk/1.jpg"
+        ]
+    },
+    {
+        id: "archer",
+        name: "Archer",
+        price: 5.00,
+        images: [
+            "images/minis/archer/5.jpg",
+            "images/minis/archer/4.jpg",
+            "images/minis/archer/2.jpg",
+            "images/minis/archer/3.jpg",
+            "images/minis/archer/1.jpg"
         ]
     }
 ];
