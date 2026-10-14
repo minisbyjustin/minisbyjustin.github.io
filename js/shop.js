@@ -1,4 +1,10 @@
 /*
+ * Stripe checkout configuration.
+ * After deploying the Cloudflare Worker, replace this URL with its HTTPS URL.
+ */
+const CHECKOUT_API_URL = "https://minisbyjustin-checkout.minisbyjustin.workers.dev";
+
+/*
  * Product data
  *
  * To add your own miniature:
@@ -281,48 +287,88 @@ function removeFromCart(productId) {
 
 function renderCart() {
     const container = document.getElementById("cart-items");
+    const subtotalElement = document.getElementById("cart-subtotal");
+    const shippingElement = document.getElementById("cart-shipping");
     const totalElement = document.getElementById("cart-total");
 
-    if (!container || !totalElement) {
-        return;
-    }
+    if (!container || !totalElement) return;
 
     if (cart.length === 0) {
         container.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+        if (subtotalElement) subtotalElement.textContent = "$0.00";
+        if (shippingElement) shippingElement.textContent = "$0.00";
         totalElement.textContent = "$0.00";
         return;
     }
 
-    let total = 0;
-
+    // Display prices from the trusted product list, not old localStorage values.
+    let subtotal = 0;
     container.innerHTML = cart.map(item => {
-        total += item.price * item.quantity;
+        const product = products.find(p => p.id === item.id);
+        if (!product) return "";
+        const quantity = Math.max(1, Math.min(99, Math.floor(Number(item.quantity) || 1)));
+        subtotal += product.price * quantity;
 
         return `
             <div class="cart-item">
-                <img
-                    class="cart-item-image"
-                    src="${item.image}"
-                    alt="${item.name}"
-                >
-
+                <img class="cart-item-image" src="${product.images[0]}" alt="${product.name}">
                 <div>
-                    <h3>${item.name}</h3>
-                    <p>${item.quantity} × ${formatPrice(item.price)}</p>
+                    <h3>${product.name}</h3>
+                    <p>${quantity} × ${formatPrice(product.price)}</p>
                 </div>
-
-                <button
-                    class="remove-item"
-                    data-remove-product="${item.id}"
-                    aria-label="Remove ${item.name}"
-                >
-                    Remove
-                </button>
+                <button class="remove-item" data-remove-product="${product.id}" aria-label="Remove ${product.name}">Remove</button>
             </div>
         `;
     }).join("");
 
-    totalElement.textContent = formatPrice(total);
+    const shipping = subtotal >= 20 ? 0 : 8;
+    if (subtotalElement) subtotalElement.textContent = formatPrice(subtotal);
+    if (shippingElement) shippingElement.textContent = subtotal >= 20 ? "Free" : formatPrice(shipping);
+    totalElement.textContent = formatPrice(subtotal + shipping);
+}
+
+function showCheckoutMessage(message) {
+    const element = document.getElementById("checkout-message");
+    if (element) element.textContent = message;
+    const pageElement = document.getElementById("page-checkout-message");
+    if (pageElement) {
+        pageElement.textContent = message;
+        pageElement.hidden = !message;
+    }
+}
+
+async function handleCheckoutReturn() {
+    const params = new URLSearchParams(window.location.search);
+    const checkoutStatus = params.get("checkout");
+    const sessionId = params.get("session_id");
+
+    if (checkoutStatus === "cancelled") {
+        showCheckoutMessage("Checkout was cancelled. Your cart is still saved.");
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+    }
+
+    if (checkoutStatus !== "success" || !sessionId) return;
+
+    showCheckoutMessage("Checking your payment status…");
+    try {
+        const response = await fetch(`${CHECKOUT_API_URL}/session-status?session_id=${encodeURIComponent(sessionId)}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Could not verify payment.");
+
+        if (data.payment_status === "paid") {
+            cart = [];
+            saveCart();
+            updateCartCount();
+            renderCart();
+            showCheckoutMessage("Thank you! Your payment was successful. Your order is confirmed.");
+        } else {
+            showCheckoutMessage("Your payment is not marked as complete yet. Please contact us if you believe this is an error.");
+        }
+    } catch (error) {
+        showCheckoutMessage("We couldn't verify the payment status automatically. Please don't submit payment again; contact us if you need help.");
+    }
+    window.history.replaceState({}, document.title, window.location.pathname);
 }
 
 function openCart() {
@@ -372,12 +418,38 @@ document.getElementById("cart-button")?.addEventListener("click", openCart);
 document.getElementById("close-cart")?.addEventListener("click", closeCart);
 document.getElementById("cart-overlay")?.addEventListener("click", closeCart);
 
-document.getElementById("checkout-button")?.addEventListener("click", () => {
-    alert(
-        "Sorry, I haven't set up a payment service yet. If you really want something, DM me on instagram @minis_by_justin"
-    );
+document.getElementById("checkout-button")?.addEventListener("click", async event => {
+    const button = event.currentTarget;
+    if (!cart.length) {
+        showCheckoutMessage("Your cart is empty. Add a miniature before checking out.");
+        return;
+    }
+    if (CHECKOUT_API_URL.includes("YOUR-WORKER-NAME")) {
+        showCheckoutMessage("Checkout setup is not finished yet. The site owner needs to configure the checkout API URL.");
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Connecting to Stripe…";
+    showCheckoutMessage("");
+    try {
+        // Send only product IDs and quantities. The server determines names and prices.
+        const response = await fetch(`${CHECKOUT_API_URL}/create-checkout-session`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ items: cart.map(item => ({ id: item.id, quantity: item.quantity })) })
+        });
+        const data = await response.json();
+        if (!response.ok || !data.url) throw new Error(data.error || "Unable to start checkout.");
+        window.location.assign(data.url);
+    } catch (error) {
+        showCheckoutMessage("We couldn't start checkout. Please try again in a moment.");
+        button.disabled = false;
+        button.textContent = "Checkout with Stripe";
+    }
 });
 
 renderProducts();
 updateCartCount();
 renderCart();
+handleCheckoutReturn();
