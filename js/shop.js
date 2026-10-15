@@ -34,7 +34,7 @@ const products = [
     {
         id: "frogrider",
         name: "Frog and Rider",
-        price: 5.00,
+        price: 9.00,
         images: [
             "images/minis/frog_rider/5.jpg",
             "images/minis/frog_rider/3.jpg",
@@ -108,7 +108,7 @@ const products = [
     {
         id: "dwarf",
         name: "Dwarf Smith",
-        price: 5.00,
+        price: 4.00,
         images: [
             "images/minis/dwarf/dwarf0.jpeg",
             "images/minis/dwarf/dwarf1.jpeg"
@@ -117,7 +117,7 @@ const products = [
     {
         id: "zombie",
         name: "Business Zombie",
-        price: 5.00,
+        price: 4.00,
         images: [
             "images/minis/zombie/1.jpg",
             "images/minis/zombie/2.jpg",
